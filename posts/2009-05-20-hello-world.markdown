@@ -23,9 +23,10 @@ Haskell, it sure is terse enough :P
 
 Here's what I came up with:
 
-~~~{.haskell}
-foldr (\x y -> x++" "++y) "!"
-  (map (\(x:xs) -> toUpper x:map toLower xs) ["HELLO", "WORLD"])
+~~~{.haskell .numberLines}
+foldr (\x y -> x ++ " " ++ y) "!"
+  (map (\(x:xs) -> toUpper x : map toLower xs)
+       ["HELLO", "WORLD"])
 ~~~
 
 What does it do?

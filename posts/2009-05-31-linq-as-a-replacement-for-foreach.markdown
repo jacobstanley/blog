@@ -72,7 +72,8 @@ foreach (Fruit fruit in sortedFruits)
     break;
 }
 
-// got the freshest, or null if there was no fruit in 'sortedFruits'
+// got the freshest, or null if there
+// was no fruit in 'sortedFruits'
 ~~~
 
 Or I can just use linq:
