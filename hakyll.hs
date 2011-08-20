@@ -16,13 +16,13 @@ main :: IO ()
 main = hakyll $ do
 
     -- Images and static files
-    ["favicon.ico"]            --> copy
-    ["img/**", "images/**"]    --> copy
-    ["static/**", "files/**"]  --> copy
-    ["js/**", "javascript/**"] --> copy
+    ["favicon.ico"] --> copy
+    ["img/**"]      --> copy
+    ["static/**"]   --> copy
+    ["js/**"]       --> copy
 
     -- CSS files
-    ["css/*.css", "style/*.css", "stylesheets/*.css"] --> css
+    ["css/*.css"] --> css
 
     -- All templates
     ["templates/*"] --> template
