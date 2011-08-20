@@ -100,3 +100,10 @@ td.nums pre {
   padding: 0 0.425em 0 0.5em;
   text-align: right;
 }
+
+#disqus_thread {
+  margin-top: 2em;
+}
+#dsq-footer, .dsq-trackback-url {
+  display: none;
+}

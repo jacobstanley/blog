@@ -3,19 +3,22 @@ module Main where
 
 import Prelude hiding (id)
 import Control.Category (id)
-import Control.Arrow ((>>>), (***), arr)
-import Data.Monoid (mempty, mconcat)
+import Control.Arrow ((>>>), arr)
 import Text.Pandoc (ParserState, WriterOptions)
+import System.FilePath (takeBaseName)
 
-import Hakyll
+import           Hakyll hiding (Page)
+import qualified Hakyll as H
+
+------------------------------------------------------------------------
 
 main :: IO ()
 main = hakyll $ do
 
     -- Images and static files
-    ["favicon.ico"]           --> copy
-    ["img/**", "images/**"]   --> copy
-    ["static/**", "files/**"] --> copy
+    ["favicon.ico"]            --> copy
+    ["img/**", "images/**"]    --> copy
+    ["static/**", "files/**"]  --> copy
     ["js/**", "javascript/**"] --> copy
 
     -- CSS files
@@ -37,49 +40,8 @@ main = hakyll $ do
     -- Useful combinator here
     xs --> f = mapM_ (\p -> match p $ f) xs
 
-    -- Completely static.
-    copy = route idRoute >> compile copyFileCompiler
-
-    -- CSS directories
-    css = route (setExtension "css") >> compile compressCssCompiler
-
-    -- Templates
-    template = compile templateCompiler
-
-    -- Posts
-    post = do
-        route $ setExtension "html"
-        compile $ pageCompilerWith parserState writerOptions
-            >>> applyTemplateCompiler "templates/post.html"
-            >>> applyTemplateCompiler "templates/default.html"
-            >>> relativizeUrlsCompiler
-
-    -- Top-level pages
-    topLevel = do
-        route $ setExtension "html"
-        compile $ pageCompilerWithFields parserState
-            writerOptions id topLevelFields
-                >>> applyTemplateCompiler "templates/default.html"
-                >>> relativizeUrlsCompiler
-
-    -- Add the fields we need to top-level pages
-    topLevelFields = setFieldPostList recentFirst "allPosts"
-        >>> setFieldPostList (take numRecentPosts . recentFirst) "recentPosts"
-        >>> setFieldPostList chronological "chronologicalPosts"
-
-    -- Create a post list based on ordering/selection
-    setFieldPostList f k = setFieldPageList f
-        "templates/post-item.html" k "posts/*"
-
-
 numRecentPosts :: Int
 numRecentPosts = 3
-
-parserState :: ParserState
-parserState = defaultHakyllParserState
-
-writerOptions :: WriterOptions
-writerOptions = defaultHakyllWriterOptions
 
 feedCfg :: FeedConfiguration
 feedCfg = FeedConfiguration
@@ -88,3 +50,68 @@ feedCfg = FeedConfiguration
     , feedAuthorName  = "Jacob Stanley"
     , feedRoot        = "http://jacob.stanley.io"
     }
+
+------------------------------------------------------------------------
+
+type Page = H.Page String
+
+-- Completely static.
+copy :: RulesM (Pattern CopyFile)
+copy = route idRoute >> compile copyFileCompiler
+
+-- CSS directories
+css :: RulesM (Pattern String)
+css = route (setExtension "css") >> compile compressCssCompiler
+
+-- Templates
+template :: RulesM (Pattern Template)
+template = compile templateCompiler
+
+-- Posts
+post :: RulesM (Pattern Page)
+post = do
+    route $ setExtension "html"
+    compile $ withFields postFields
+        >>> applyTemplateCompiler "templates/post.html"
+        >>> applyTemplateCompiler "templates/default.html"
+        >>> relativizeUrlsCompiler
+
+postFields :: Compiler Page Page
+postFields = arr setIdentifier
+
+setIdentifier :: Page -> Page
+setIdentifier page = setField "id" identifier page
+  where
+    identifier = takeBaseName (getField "url" page)
+
+-- Top-level pages
+topLevel :: RulesM (Pattern Page)
+topLevel = do
+    route $ setExtension "html"
+    compile $ withFields topLevelFields
+        >>> applyTemplateCompiler "templates/default.html"
+        >>> relativizeUrlsCompiler
+
+-- Add the fields we need to top-level pages
+topLevelFields :: Compiler Page Page
+topLevelFields =
+        setFieldPostList recentFirst "allPosts"
+    >>> setFieldPostList (take numRecentPosts . recentFirst) "recentPosts"
+    >>> setFieldPostList chronological "chronologicalPosts"
+
+-- Create a post list based on ordering/selection
+setFieldPostList :: ([Page] -> [Page]) -> String -> Compiler Page Page
+setFieldPostList f k = setFieldPageList f
+    "templates/post-item.html" k "posts/*"
+
+------------------------------------------------------------------------
+-- Utils
+
+withFields :: Compiler Page Page -> Compiler Resource Page
+withFields = pageCompilerWithFields parserState writerOptions id
+
+parserState :: ParserState
+parserState = defaultHakyllParserState
+
+writerOptions :: WriterOptions
+writerOptions = defaultHakyllWriterOptions

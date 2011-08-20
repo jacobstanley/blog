@@ -3,3 +3,24 @@
 <p class="post-info">Written by <strong>$author$</strong> on <strong>$date$</strong></p>
 
 $body$
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+  var disqus_shortname  = 'jacobstanley';
+  var disqus_identifier = '$id$';
+  var disqus_url        = 'http://jacob.stanley.io$url$';
+  var disqus_title      = '$title$';
+
+  var url = window.location.toString();
+  var disqus_developer = url.indexOf('http://localhost') == 0 ? 1 : 0;
+
+  (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] ||
+     document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
