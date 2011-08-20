@@ -1,5 +1,5 @@
 body {
-  color: #111;
+  color: #222;
   background-color: #fefefe;
   font: 18px/27px 'Helvetica Neue', 'Arial', sans-serif;
   width: 650px;
@@ -37,11 +37,11 @@ div#footer {
 }
 
 h1 {
-  color: #444;
+  color: #333;
   border-bottom: 1px dotted #ccc;
   font: 27px/40px 'Hoefler Text', 'Constantia', 'Palatino', 'Palatino Linotype', 'Book Antiqua', 'Georgia', serif;
   font-weight: bold;
-  margin-top: 10px;
+  margin-top: 25px;
 }
 
 h2, h3 {
@@ -49,8 +49,8 @@ h2, h3 {
 }
 
 p {
-  margin-top: 0.75em;
-  margin-bottom: 1em;
+  margin-top: 1.5em;
+  margin-bottom: 1.5em;
 }
 
 p.post-info {
@@ -80,24 +80,21 @@ body > pre.sourceCode, table.sourceCode {
   text-shadow: 0 0 0 transparent, 1px 1px 2px #292927;
   background: #404040 url(/img/code-bg.png);
 
-  border-radius: 4px;
-  -moz-border-radius: 4px;
-  -webkit-border-radius: 4px;
+  -moz-box-shadow:    0 0 15px #666;
+  -webkit-box-shadow: 0 0 15px #666;
+  box-shadow:         0 0 15px #666;
 
-  display: block;
+  display: none;
   overflow: auto;
 
   width: auto;
-  margin: 1.2em auto;
-  padding: 0;
-}
-
-body > pre.sourceCode, td.sourceCode {
-  padding: 0.5em 0.7em;
+  margin: 1.5em auto;
+  padding: 1.5em 0;
 }
 
 td.nums pre {
-  padding: 0 0.425em 0 0.5em;
+  padding-right: 0.5em;
+  margin-right: 0.5em;
   text-align: right;
 }
 
