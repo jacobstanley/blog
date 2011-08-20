@@ -43,12 +43,15 @@ main = hakyll $ do
 numRecentPosts :: Int
 numRecentPosts = 3
 
+siteRoot :: String
+siteRoot = "http://jacob.stanley.io"
+
 feedCfg :: FeedConfiguration
 feedCfg = FeedConfiguration
     { feedTitle       = "Jacob Stanley :: IO Blog"
     , feedDescription = "Ceiling cat is watching you unsafePerformIO"
     , feedAuthorName  = "Jacob Stanley"
-    , feedRoot        = "http://jacob.stanley.io"
+    , feedRoot        = siteRoot
     }
 
 ------------------------------------------------------------------------
@@ -77,7 +80,7 @@ post = do
         >>> relativizeUrlsCompiler
 
 postFields :: Compiler Page Page
-postFields = arr setIdentifier
+postFields = arr (setIdentifier . setField "siteRoot" siteRoot)
 
 setIdentifier :: Page -> Page
 setIdentifier page = setField "id" identifier page
@@ -101,8 +104,8 @@ topLevelFields =
 
 -- Create a post list based on ordering/selection
 setFieldPostList :: ([Page] -> [Page]) -> String -> Compiler Page Page
-setFieldPostList f k = setFieldPageList f
-    "templates/post-item.html" k "posts/*"
+setFieldPostList f k =
+    setFieldPageList f "templates/post-item.html" k "posts/*"
 
 ------------------------------------------------------------------------
 -- Utils
