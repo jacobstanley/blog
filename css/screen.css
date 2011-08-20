@@ -78,7 +78,7 @@ div.figure p.caption {
 
 body > pre.sourceCode, table.sourceCode {
   text-shadow: 0 0 0 transparent, 1px 1px 2px #292927;
-  background: #333 url(/images/code-bg.png);
+  background: #404040 url(/img/code-bg.png);
 
   border-radius: 4px;
   -moz-border-radius: 4px;
