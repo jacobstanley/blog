@@ -5,6 +5,7 @@ import Prelude hiding (id)
 import Control.Category (id)
 import Control.Arrow ((>>>), arr)
 import Text.Pandoc (ParserState, WriterOptions)
+import Text.Regex (subRegex, mkRegex)
 import System.FilePath (takeBaseName)
 
 import           Hakyll hiding (Page)
@@ -18,7 +19,7 @@ main = hakyll $ do
     -- Images and static files
     ["favicon.ico"] --> copy
     ["img/**"]      --> copy
-    ["static/**"]   --> copy
+    ["files/**"]    --> copy
     ["js/**"]       --> copy
 
     -- CSS files
@@ -80,12 +81,20 @@ post = do
         >>> relativizeUrlsCompiler
 
 postFields :: Compiler Page Page
-postFields = arr (setIdentifier . setField "siteRoot" siteRoot)
+postFields = arr
+    $ setIdentifier
+    . setEscapedTitle
+    . setField "siteRoot" siteRoot
 
 setIdentifier :: Page -> Page
 setIdentifier page = setField "id" identifier page
   where
     identifier = takeBaseName (getField "url" page)
+
+setEscapedTitle :: Page -> Page
+setEscapedTitle page = setField "escapedTitle" title page
+  where
+    title = replace "'" "\\'" (getField "title" page)
 
 -- Top-level pages
 topLevel :: RulesM (Pattern Page)
@@ -118,3 +127,6 @@ parserState = defaultHakyllParserState
 
 writerOptions :: WriterOptions
 writerOptions = defaultHakyllWriterOptions
+
+replace :: String -> String -> String -> String
+replace src dst txt = subRegex (mkRegex src) txt dst

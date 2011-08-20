@@ -3,11 +3,28 @@ body {
   background-color: #fefefe;
   font: 18px/27px 'Helvetica Neue', 'Arial', sans-serif;
   width: 650px;
-  margin: 10px auto 10px auto;
+  margin: 10px auto;
+}
+
+em {
+  font-style: italic;
+}
+
+strong {
+  font-weight: bold;
 }
 
 pre, code {
   font: 17px/23px monospace;
+}
+
+p > code {
+  background-color: #e7e7e7;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  padding: 2px 4px;
+  margin: -2px 0;
 }
 
 div#header {
@@ -48,9 +65,9 @@ h2, h3 {
   font-weight: bold;
 }
 
-p {
-  margin-top: 1.5em;
-  margin-bottom: 1.5em;
+p, ul {
+  margin-top: 1.3em;
+  margin-bottom: 1.3em;
 }
 
 p.post-info {
@@ -88,7 +105,7 @@ body > pre.sourceCode, table.sourceCode {
   overflow: auto;
 
   width: auto;
-  margin: 1.5em auto;
+  margin: 1.8em auto;
   padding: 1.5em 0;
 }
 
@@ -99,7 +116,7 @@ td.nums pre {
 }
 
 #disqus_thread {
-  margin-top: 2em;
+  margin-top: 3em;
 }
 #dsq-footer, .dsq-trackback-url {
   display: none;
