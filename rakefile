@@ -2,9 +2,13 @@ Dir.chdir File.dirname(__FILE__)
 
 task :default => :preview
 
-task :preview do
+task :preview => :clean do
   puts 'runghc hakyll.hs preview'
   system 'runghc hakyll.hs preview'
+end
+
+task :clean do
+  sh 'runghc hakyll.hs clean'
 end
 
 task :build do
