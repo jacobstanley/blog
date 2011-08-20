@@ -17,7 +17,7 @@ of the time. Maybe I'm just impatient :P
 
 Given this is a hello world post and I'm learning Haskell at the moment,
 I thought I'd try and craft one line of Haskell that does something
-interesting to come up with the classic "Hello World!". Although,
+interesting to come up with the classic `"Hello World!"`. Although,
 perhaps I should have tried to write a blog engine in one line of
 Haskell, it sure is terse enough :P
 
@@ -31,11 +31,11 @@ foldr (\x y -> x ++ " " ++ y) "!"
 
 What does it do?
 
-It creates a list containing the strings "HELLO" and "WORLD"
+It creates a list containing the strings `"HELLO"` and `"WORLD"`
 
 It maps a lambda on to the list so that the first character of each
 string in the list is uppercase and the rest of the characters are
-lowercase (giving us "Hello", "World")
+lowercase (giving us `"Hello"`, `"World"`)
 
 It does a fold right on the resulting list, with a lambda that
 concatenates each item in the list using a space as a separator and an
@@ -47,5 +47,5 @@ The result?
 "Hello World !"
 ~~~
 
-Ideally I'd have liked to not have the space in between "World" and "!",
-but my haskell-fu isn't good enough yet :)
+Ideally I'd have liked to not have the space in between `"World"` and
+`"!"`, but my haskell-fu isn't good enough yet :)

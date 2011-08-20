@@ -44,7 +44,7 @@ How about sorting?  I used to find myself doing something like this:
 List<Fruit> sortedFruits = new List<Fruit>(GetAllTheFruit());
 sortedFruits.Sort(new FreshnessComparer());
 
-class FreshnessComparer : IComparer&lt;Fruit&gt;
+class FreshnessComparer : IComparer<Fruit>
 {
     public int Compare(Fruit x, Fruit y)
     {
