@@ -55,16 +55,25 @@ div#footer {
   margin-top: 30px;
 }
 
+h1, h2, h3, h4 {
+  font-weight: bold;
+}
+
+h1, h2 {
+  font-family: 'Hoefler Text', 'Constantia', 'Palatino', 'Palatino Linotype', 'Book Antiqua', 'Georgia', serif;
+}
+
 h1 {
   color: #333;
   border-bottom: 1px dotted #ccc;
-  font: 27px/40px 'Hoefler Text', 'Constantia', 'Palatino', 'Palatino Linotype', 'Book Antiqua', 'Georgia', serif;
-  font-weight: bold;
+  font-size: 27px;
+  line-height: 40px;
   margin-top: 25px;
 }
 
-h2, h3 {
-  font-weight: bold;
+h2 {
+  font-size: 21px;
+  margin-top: 40px;
 }
 
 p, ul {
