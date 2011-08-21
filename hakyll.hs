@@ -1,12 +1,17 @@
 {-# LANGUAGE OverloadedStrings #-}
 module Main where
 
-import Prelude hiding (id)
-import Control.Category (id)
-import Control.Arrow ((>>>), arr)
-import Text.Pandoc (ParserState, WriterOptions)
-import Text.Regex (subRegex, mkRegex)
-import System.FilePath (takeBaseName)
+import           Prelude hiding (id)
+import           Control.Arrow ((>>>), (>>^), (&&&), arr)
+import           Control.Category (id)
+import           Data.List (stripPrefix)
+import           Data.Monoid (mappend)
+import           Data.Maybe (fromMaybe)
+import qualified Data.Set as S
+import           Text.HTML.TagSoup
+import           Text.Pandoc (ParserState, WriterOptions)
+import           System.FilePath (takeBaseName)
+
 
 import           Hakyll hiding (Page)
 import qualified Hakyll as H
@@ -75,27 +80,50 @@ template = compile templateCompiler
 -- Posts
 post :: RulesM (Pattern Page)
 post = do
-    route $ setExtension "html"
+    route postRoute
     compile $ withFields postFields
         >>> applyTemplateCompiler "templates/post.html"
         >>> applyTemplateCompiler "templates/default.html"
         >>> relativizeUrlsCompiler
+        >>> cleanUrlCompiler
+
+postRoute :: Routes
+postRoute = dropHeadDir & setExtension "html" & dateDirs & dirWithIndex
+  where
+    -- | drops the first directory, post/1/abc.html is routed to 1/abc.html
+    dropHeadDir = gsubRoute "^[^/]+/" (const "")
+
+    -- | takes a post named abc.html and routes it to abc/index.html
+    dirWithIndex = gsubRoute "\\.html" (const "/index.html")
+
+    -- | takes the first three numbers of a post and makes them in to
+    -- directories, 2011-08-21-abc.html is routed to 2011/08/21/abc.html
+    dateDirs  = numberDir & numberDir & numberDir
+    numberDir = gsubRoute "^\\d+-" (\x -> init x ++ "/")
+
+    (&) = composeRoutes
 
 postFields :: Compiler Page Page
 postFields = arr
     $ setIdentifier
     . setEscapedTitle
+    . setCleanUrl
     . setField "siteRoot" siteRoot
 
 setIdentifier :: Page -> Page
-setIdentifier page = setField "id" identifier page
+setIdentifier p = setField "id" identifier p
   where
-    identifier = takeBaseName (getField "url" page)
+    identifier = takeBaseName (getField "url" p)
+
+setCleanUrl :: Page -> Page
+setCleanUrl p = setField "url" url p
+  where
+    url = cleanUrl (getField "url" p)
 
 setEscapedTitle :: Page -> Page
-setEscapedTitle page = setField "escapedTitle" title page
+setEscapedTitle p = setField "escapedTitle" title p
   where
-    title = replace "'" "\\'" (getField "title" page)
+    title = replaceAll "'" (const "\\'") (getField "title" p)
 
 -- Top-level pages
 topLevel :: RulesM (Pattern Page)
@@ -104,6 +132,7 @@ topLevel = do
     compile $ withFields topLevelFields
         >>> applyTemplateCompiler "templates/default.html"
         >>> relativizeUrlsCompiler
+        >>> cleanUrlCompiler
 
 -- Add the fields we need to top-level pages
 topLevelFields :: Compiler Page Page
@@ -114,8 +143,8 @@ topLevelFields =
 
 -- Create a post list based on ordering/selection
 setFieldPostList :: ([Page] -> [Page]) -> String -> Compiler Page Page
-setFieldPostList f k =
-    setFieldPageList f "templates/post-item.html" k "posts/*"
+setFieldPostList order key =
+    setFieldPageList order "templates/post-item.html" key "posts/*"
 
 ------------------------------------------------------------------------
 -- Utils
@@ -129,5 +158,33 @@ parserState = defaultHakyllParserState
 writerOptions :: WriterOptions
 writerOptions = defaultHakyllWriterOptions
 
-replace :: String -> String -> String -> String
-replace src dst txt = subRegex (mkRegex src) txt dst
+------------------------------------------------------------------------
+-- URL mangling
+
+cleanUrlCompiler :: Compiler Page Page
+cleanUrlCompiler = arr $ fmap $ mapAttrs clean
+  where
+    clean (key, value)
+      | key `S.member` urls = (key, cleanUrl value)
+      | otherwise           = (key, value)
+
+    urls = S.fromList ["src", "href"]
+
+cleanUrl :: String -> String
+cleanUrl url = fromMaybe url (stripSuffix "/index.html" url)
+
+stripSuffix :: Eq a => [a] -> [a] -> Maybe [a]
+stripSuffix suf xs = reverse `fmap` stripPrefix suf' xs'
+  where
+    suf' = reverse suf
+    xs'  = reverse xs
+
+mapAttrs :: (Attribute String -> Attribute String) -> String -> String
+mapAttrs = mapTags . mapAttr
+
+mapTags :: (Tag String -> Tag String) -> String -> String
+mapTags f = renderTags . map f . parseTags
+
+mapAttr :: (Attribute a -> Attribute a) -> Tag a -> Tag a
+mapAttr f (TagOpen s a) = TagOpen s (map f a)
+mapAttr _ x             = x
