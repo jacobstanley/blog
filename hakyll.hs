@@ -43,7 +43,7 @@ main = hakyll $ do
     xs --> f = mapM_ (\p -> match p $ f) xs
 
 numRecentPosts :: Int
-numRecentPosts = 3
+numRecentPosts = 10
 
 siteRoot :: String
 siteRoot = "http://jacob.stanley.io"
