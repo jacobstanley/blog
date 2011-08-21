@@ -18,6 +18,7 @@ main = hakyll $ do
 
     -- Images and static files
     ["favicon.ico"] --> copy
+    ["robots.txt"]  --> copy
     ["img/**"]      --> copy
     ["files/**"]    --> copy
     ["js/**"]       --> copy
