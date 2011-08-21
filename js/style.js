@@ -1,5 +1,8 @@
+// Code for resizing source code boxes
+// Original idea from: http://www.quirksmode.org
 (function() {
   resizeSourceCode();
+  window.onload = resizeSourceCode;
   window.onresize = resizeSourceCode;
 
   var sourceCode = null;
@@ -7,36 +10,47 @@
   {
     if (sourceCode == null) {
       var xs = document.getElementsByClassName('sourceCode');
+      sourceCode = [];
+
       if (!xs.length) return;
 
-      sourceCode = [];
       for (var i = 0; i < xs.length; i++) {
         if (xs[i].parentNode.nodeName == 'BODY') {
           sourceCode.push(xs[i]);
         }
       }
+
+      // source code block are hidden by default, show them
+      for (var i = 0; i < sourceCode.length; i++) {
+        sourceCode[i].style.display = 'block';
+      }
     }
 
     if (!sourceCode.length) return;
 
-    var sample = sourceCode[0];
-    sample.style.display = 'block';
-    sample.style.marginLeft = '0';
-    sample.style.paddingLeft = '0';
-    sample.style.marginRight = '0';
+    // take the first source code block on the page
+    // as a representative of all the others.
+    var block      = sourceCode[0];
+    var marginLeft = block.style.marginLeft;
 
-    var docWidth = document.documentElement.clientWidth;
-    var preWidth = sample.offsetWidth;
+    // set the margins to zero so we can take some
+    // measurements
+    block.style.marginLeft  = '0';
+    block.style.marginRight = '0';
 
-    var marginWidth = (docWidth - preWidth) / 2;
+    // measure the source code block relative to
+    // the rest of the page
+    var pageWidth = document.documentElement.clientWidth;
+    var sourceWidth = block.offsetWidth;
+    var marginWidth = (pageWidth - sourceWidth) / 2;
     if (marginWidth < 0)
       marginWidth = 0;
 
+    // propagate the correct margins to every source
+    // code block on the page
     for (var i = 0; i < sourceCode.length; i++) {
-      sourceCode[i].style.display = 'block';
-      sourceCode[i].style.marginLeft = '-' + marginWidth + 'px';
+      sourceCode[i].style.marginLeft  = marginLeft;
       sourceCode[i].style.marginRight = '-' + marginWidth + 'px';
-      sourceCode[i].style.paddingLeft = marginWidth + 'px';
     }
   }
 })();

@@ -1,7 +1,7 @@
 body {
   color: #222;
-  background-color: #fefefe;
-  font: 18px/27px 'Helvetica Neue', 'Arial', sans-serif;
+  background: #fefefe url(/img/bg-light-light.png);
+  font: 18px/30px 'Helvetica Neue', 'Arial', sans-serif;
   width: 650px;
   margin: 10px auto;
 }
@@ -19,12 +19,14 @@ pre, code {
 }
 
 p > code {
-  background-color: #e7e7e7;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  border-radius: 3px;
-  padding: 2px 4px;
-  margin: -2px 0;
+  color: #111;
+  background: #e7e7e7;
+
+  -webkit-border-radius: 5px;
+  -moz-border-radius:    5px;
+  border-radius:         5px;
+
+  padding: 2px 5px;
 }
 
 div#header {
@@ -71,7 +73,7 @@ p, ul {
 }
 
 p.post-info {
-  color: #555;
+  color: #444;
   font-size: 14px;
   font-style: italic;
   margin: 0;
@@ -97,16 +99,16 @@ body > pre.sourceCode, table.sourceCode {
   text-shadow: 0 0 0 transparent, 1px 1px 2px #292927;
   background: #404040 url(/img/code-bg.png);
 
-  -moz-box-shadow:    0 0 15px #666;
-  -webkit-box-shadow: 0 0 15px #666;
-  box-shadow:         0 0 15px #666;
+  -moz-border-radius:    5px 0 0 5px;
+  -webkit-border-radius: 5px 0 0 5px;
+  border-radius:         5px 0 0 5px;
 
   display: none;
   overflow: auto;
 
   width: auto;
-  margin: 1.8em auto;
-  padding: 1.5em 0;
+  margin: 1.8em -1.5em;
+  padding: 1.5em;
 }
 
 td.nums pre {
