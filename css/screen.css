@@ -36,16 +36,17 @@ div#header {
   width: 100%;
 }
 
-div#home {
-  float: left;
+div#title {
+  float: right;
+  color: #444;
 }
 
 div#navigation {
-  float: right;
+  float: left;
 }
 
 div#navigation a {
-  margin-left: 10px;
+  margin-right: 10px;
 }
 
 div#footer {
@@ -70,6 +71,13 @@ h1 {
   line-height: 40px;
   margin-top: 25px;
 }
+h1 a {
+  color: #333;
+}
+h1 a:hover {
+  color: #114b86;
+  text-decoration: none;
+}
 
 h2 {
   font-size: 21px;
@@ -86,6 +94,11 @@ p.post-info {
   font-size: 14px;
   font-style: italic;
   margin: 0;
+}
+
+div.post-footer {
+  margin-bottom: 3em;
+  text-align: center;
 }
 
 a {

@@ -4,19 +4,20 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <title>$title$ &laquo; Jacob Stanley</title>
+        <title>$title$ &laquo; Jacob Stanley / Blog</title>
         <link rel="stylesheet" type="text/css" href="/css/reset.css" />
         <link rel="stylesheet" type="text/css" href="/css/screen.css" />
         <link rel="stylesheet" type="text/css" href="/css/syntax.css" />
     </head>
     <body>
         <div id="header">
-            <div id="home">
-                <a href="/">Home</a>
-            </div>
             <div id="navigation">
-                <a href="/all-posts.html">All posts</a>
+                <a href="/">Home</a>
+                <a href="/archive.html">Archive</a>
                 <a href="/about.html">About</a>
+            </div>
+            <div id="title">
+                Jacob Stanley / Blog
             </div>
         </div>
 
@@ -27,4 +28,16 @@
         </div>
     </body>
     <script type="text/javascript" src="/js/style.js"></script>
+    <script type="text/javascript">
+        var disqus_shortname = 'jacobstanley';
+
+        (function () {
+            var s = document.createElement('script');
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] ||
+            document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+    </script>
 </html>

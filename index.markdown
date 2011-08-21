@@ -4,4 +4,4 @@ title: Home
 
 $recentPosts$
 
-[All posts...](/all-posts.html)
+<a href="/archive.html" class="more-posts">More...</a>
