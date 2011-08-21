@@ -14,3 +14,13 @@ pre.sourceCode span.st { color: #99ad6a; }
 pre.sourceCode span.al { color: #ff0000; font-weight: bold; }
 pre.sourceCode span.re { }
 pre.sourceCode span.er { color: #ff0000; font-weight: bold; }
+
+pre.sourceCode span.ModuleName { color: blue; }
+pre.sourceCode span.Keyword { color: #000080; }
+pre.sourceCode span.Function { }
+pre.sourceCode span.FunctionDefinition { color: green; }
+pre.sourceCode span.Class { color: #800080; text-decoration: underline; font-weight: normal; }
+pre.sourceCode span.Constructor { text-decoration: underline; }
+pre.sourceCode span.DataConstructor { color: #000080; }
+pre.sourceCode span.TypeConstructor { text-decoration: underline; }
+pre.sourceCode span.InfixOperator { color: #808080; }

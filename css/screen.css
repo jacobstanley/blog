@@ -128,7 +128,18 @@ td.nums pre {
 
 #disqus_thread {
   margin-top: 3em;
+  font-size: 90%;
 }
-#dsq-footer, .dsq-trackback-url {
+
+#dsq-footer {
   display: none;
+}
+
+.dsq-trackback-url {
+  font-size: 80%;
+}
+
+.about-picture {
+  float: left;
+  margin: 1.8em 1em 0 0;
 }
