@@ -4,9 +4,9 @@ pre.sourceCode { color: #e8e8dc; }
 pre.sourceCode span.co { color: #aaaaaa; font-style: italic; }
 pre.sourceCode span.kw { color: #a5c2f6; }
 pre.sourceCode span.dt { color: #ffb964; }
-pre.sourceCode span.ot { color: #e79b50; }
+pre.sourceCode span.ot { color: #e7a250; }
 pre.sourceCode span.fu { color: #f6cf8f; }
-pre.sourceCode span.dv { color: #40a070; }
+pre.sourceCode span.dv { color: #e0876e; }
 pre.sourceCode span.bn { color: #40a070; }
 pre.sourceCode span.fl { color: #40a070; }
 pre.sourceCode span.ch { color: #4070a0; }
@@ -14,13 +14,3 @@ pre.sourceCode span.st { color: #99ad6a; }
 pre.sourceCode span.al { color: #ff0000; font-weight: bold; }
 pre.sourceCode span.re { }
 pre.sourceCode span.er { color: #ff0000; font-weight: bold; }
-
-pre.sourceCode span.ModuleName { color: blue; }
-pre.sourceCode span.Keyword { color: #000080; }
-pre.sourceCode span.Function { }
-pre.sourceCode span.FunctionDefinition { color: green; }
-pre.sourceCode span.Class { color: #800080; text-decoration: underline; font-weight: normal; }
-pre.sourceCode span.Constructor { text-decoration: underline; }
-pre.sourceCode span.DataConstructor { color: #000080; }
-pre.sourceCode span.TypeConstructor { text-decoration: underline; }
-pre.sourceCode span.InfixOperator { color: #808080; }

@@ -1,5 +1,15 @@
 Dir.chdir File.dirname(__FILE__)
 
+def gzip(pattern)
+  sh "find _site/ -name \"#{pattern}\"  -type f -exec /bin/sh -c \"gzip --stdout --best --rsyncable \\\"{}\\\" > \\\"{}.gz\\\"\" \\;"
+end
+
+def compress
+  gzip "*.css"
+  gzip "*.js"
+  gzip "*.html"
+end
+
 task :default => :preview
 
 task :preview => :clean do
@@ -12,12 +22,14 @@ end
 
 task :build do
   sh 'runghc hakyll.hs build'
+  compress
 end
 
 task :rebuild do
   sh 'runghc hakyll.hs rebuild'
+  compress
 end
 
-task :deploy do
+task :deploy => :rebuild do
   sh 'runghc hakyll.hs deploy'
 end

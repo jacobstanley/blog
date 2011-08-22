@@ -41,6 +41,11 @@ div#title {
   color: #444;
 }
 
+.feed {
+  margin-left: 2px;
+  vertical-align: middle;
+}
+
 div#navigation {
   float: left;
 }

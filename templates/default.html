@@ -4,10 +4,37 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <title>$title$ &laquo; Jacob Stanley / Blog</title>
+        <title>$title$ &laquo; Jacob Stanley &laquo; Blog</title>
         <link rel="stylesheet" type="text/css" href="/css/reset.css" />
         <link rel="stylesheet" type="text/css" href="/css/screen.css" />
         <link rel="stylesheet" type="text/css" href="/css/syntax.css" />
+        <link rel="alternate" type="application/atom+xml" href="http://feeds.feedburner.com/jacobstanley" />
+
+        <!-- Google Analytics -->
+        <script type="text/javascript">
+            var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', 'UA-25279939-1']);
+            _gaq.push(['_trackPageview']);
+            (function() {
+                var ga = document.createElement('script');
+                ga.type = 'text/javascript'; ga.async = true;
+                ga.src = 'http://www.google-analytics.com/ga.js';
+                var s = document.getElementsByTagName('script')[0];
+                s.parentNode.insertBefore(ga, s);
+            })();
+        </script>
+
+        <!-- Disqus Comment Counts -->
+        <script type="text/javascript">
+            var disqus_shortname = 'jacobstanley';
+            (function () {
+                var s = document.createElement('script');
+                s.type = 'text/javascript'; s.async = true;
+                s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+                (document.getElementsByTagName('HEAD')[0] ||
+                 document.getElementsByTagName('BODY')[0]).appendChild(s);
+            }());
+        </script>
     </head>
     <body>
         <div id="header">
@@ -17,7 +44,8 @@
                 <a href="/about.html">About</a>
             </div>
             <div id="title">
-                Jacob Stanley / Blog
+                Jacob Stanley &laquo; Blog
+                <a class="feed" href="http://feeds.feedburner.com/jacobstanley"><img width="14" height="14" src="/img/feed-icon.png" /></a>
             </div>
         </div>
 
@@ -26,18 +54,7 @@
         <div id="footer">
             Site generated using <a href="http://jaspervdj.be/hakyll">Hakyll</a>
         </div>
-    </body>
-    <script type="text/javascript" src="/js/style.js"></script>
-    <script type="text/javascript">
-        var disqus_shortname = 'jacobstanley';
 
-        (function () {
-            var s = document.createElement('script');
-            s.async = true;
-            s.type = 'text/javascript';
-            s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
-            (document.getElementsByTagName('HEAD')[0] ||
-            document.getElementsByTagName('BODY')[0]).appendChild(s);
-        }());
-    </script>
+        <script type="text/javascript" src="/js/style.js"></script>
+    </body>
 </html>

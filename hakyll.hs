@@ -1,17 +1,19 @@
 {-# LANGUAGE OverloadedStrings #-}
+
 module Main where
 
 import           Prelude hiding (id)
 import           Control.Arrow ((>>>), (>>^), (&&&), arr)
 import           Control.Category (id)
+import           Data.ByteString.Lazy (ByteString)
 import           Data.List (stripPrefix)
 import           Data.Monoid (mappend)
 import           Data.Maybe (fromMaybe)
 import qualified Data.Set as S
+import           System.Process (runCommand)
+import           System.FilePath (takeDirectory, takeFileName)
 import           Text.HTML.TagSoup
 import           Text.Pandoc (ParserState, WriterOptions)
-import           System.FilePath (takeBaseName)
-
 
 import           Hakyll hiding (Page)
 import qualified Hakyll as H
@@ -22,12 +24,7 @@ main :: IO ()
 main = hakyllWith configuration $ do
 
     -- Images and static files
-    ["favicon.ico"] --> copy
-    ["robots.txt"]  --> copy
-    ["blank.html"]  --> copy
-    ["img/**"]      --> copy
-    ["files/**"]    --> copy
-    ["js/**"]       --> copy
+    ["static/**"] --> static
 
     -- CSS files
     ["css/*.css"] --> css
@@ -43,7 +40,9 @@ main = hakyllWith configuration $ do
 
     -- RSS
     match  "atom.xml" $ route idRoute
-    create "atom.xml" $ requireAll_ "posts/*" >>> renderAtom feedConfiguration
+    create "atom.xml" $ requireAll_ "posts/*"
+                      >>> arr recentFirst
+                      >>> renderAtom feedConfiguration
   where
     -- Useful combinator here
     xs --> f = mapM_ (\p -> match p $ f) xs
@@ -56,17 +55,22 @@ siteRoot = "http://jacob.stanley.io"
 
 configuration :: HakyllConfiguration
 configuration = defaultHakyllConfiguration
-    { deployCommand =
-        "rsync -ave 'ssh' " ++ local ++ "/* " ++ server ++ ":" ++ remote
-    }
+    { ignoreFile = ignoreFile'
+    , deployCommand = rsync }
   where
-    server = "jystic_jacobstanley@ssh.phx.nearlyfreespeech.net"
-    remote = "/home/public"
+    ignoreFile' path
+        | ".htaccess" == takeFileName path = False
+        | otherwise                        = defaultIgnoreFile path
+
+    defaultIgnoreFile = ignoreFile defaultHakyllConfiguration
+
+    rsync  = "rsync -ave 'ssh' " ++ local ++ "/* " ++ remote
+    remote = "jystic_jacobstanley@ssh.phx.nearlyfreespeech.net:/home/public"
     local  = destinationDirectory defaultHakyllConfiguration
 
 feedConfiguration :: FeedConfiguration
 feedConfiguration = FeedConfiguration
-    { feedTitle       = "Jacob Stanley :: IO Blog"
+    { feedTitle       = "Jacob Stanley « Blog"
     , feedDescription = "Ceiling cat is watching you unsafePerformIO"
     , feedAuthorName  = "Jacob Stanley"
     , feedRoot        = siteRoot
@@ -81,6 +85,7 @@ post :: RulesM (Pattern Page)
 post = do
     route postRoute
     compile $ withFields postFields
+        >>> arr (copyBodyToField "description")
         >>> applyTemplateCompiler "templates/post.html"
         >>> applyTemplateCompiler "templates/default.html"
         >>> relativizeUrlsCompiler
@@ -104,11 +109,11 @@ postRoute = dropHeadDir & setExtension "html" & dateDirs & dirWithIndex
 
 postFields :: Compiler Page Page
 postFields = arr
-    $ setFieldFrom "url" "id" takeBaseName
-    . setEscapedTitle
-    . changeField "url" stripIndexPageName
+    $ setEscapedTitle
     . setField "siteRoot" siteRoot
-    . copyBodyToField "description"
+    . copyBodyToField "rawBody"
+    . setFieldFrom "url" "id" (takeFileName . takeDirectory)
+    . changeField "url" stripIndexPageName
 
 setEscapedTitle :: Page -> Page
 setEscapedTitle = setFieldFrom "title" "escapedTitle" escape
@@ -146,15 +151,19 @@ setFieldPostTeasers order key =
 ------------------------------------------------------------------------
 -- Utils
 
--- Completely static.
+-- | Copy to output and maintain 1:1 structure
 copy :: RulesM (Pattern CopyFile)
 copy = route idRoute >> compile copyFileCompiler
 
--- CSS directories
+-- | Copy files from static/ to the root directory
+static :: RulesM (Pattern CopyFile)
+static = route (gsubRoute "static/" (const "")) >> compile copyFileCompiler
+
+-- | CSS directories
 css :: RulesM (Pattern String)
 css = route (setExtension "css") >> compile compressCssCompiler
 
--- Templates
+-- | Load templates
 template :: RulesM (Pattern Template)
 template = compile templateCompiler
 
@@ -184,7 +193,9 @@ cleanUrlCompiler = arr $ fmap $ mapAttrs clean
     urls = S.fromList ["src", "href"]
 
 stripIndexPageName :: String -> String
-stripIndexPageName url = fromMaybe url (stripSuffix "/index.html" url)
+stripIndexPageName url = fromMaybe url stripped
+  where
+    stripped = fmap (++ "/") (stripSuffix "/index.html" url)
 
 stripSuffix :: Eq a => [a] -> [a] -> Maybe [a]
 stripSuffix suf xs = reverse `fmap` stripPrefix suf' xs'
