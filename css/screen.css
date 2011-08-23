@@ -46,10 +46,15 @@ pre, code {
   font: 16px/23px 'DejaVuSansMonoBook', serif;
 }
 .linux pre, .linux code {
-  font: 17px/23px 'DejaVuSansMonoBook', serif;
+  /* on linux we bump the font-size by one pixel
+   * as it looks better */
+  font-size: 17px;
 }
 
 p > code {
+  /* inline code is always 16px, even on linux */
+  font-size: 16px !important;
+
   color: #222;
   background: #e7e7e7;
   text-shadow: 0 0 0 transparent, 1px 1px 4px #998;
