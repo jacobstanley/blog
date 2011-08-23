@@ -6,6 +6,34 @@ body {
   margin: 10px auto;
 }
 
+h1, h2 {
+  font-family: 'Hoefler Text', 'Constantia', 'Palatino', 'Palatino Linotype', 'Book Antiqua', 'Georgia', serif;
+}
+
+h1, h2, h3, h4 {
+  font-weight: bold;
+}
+
+h1 {
+  color: #333;
+  border-bottom: 1px dotted #ccc;
+  font-size: 27px;
+  line-height: 40px;
+  margin-top: 25px;
+}
+h1 a {
+  color: #333;
+}
+h1 a:hover {
+  color: #114b86;
+  text-decoration: none;
+}
+
+h2 {
+  font-size: 22px;
+  margin-top: 40px;
+}
+
 em {
   font-style: italic;
 }
@@ -15,18 +43,44 @@ strong {
 }
 
 pre, code {
-  font: 17px/23px monospace;
+  font: 16px/23px 'DejaVuSansMonoBook', serif;
+}
+.linux pre, .linux code {
+  font: 17px/23px 'DejaVuSansMonoBook', serif;
 }
 
 p > code {
-  color: #111;
+  color: #222;
   background: #e7e7e7;
+  text-shadow: 0 0 0 transparent, 1px 1px 4px #998;
 
   -webkit-border-radius: 5px;
   -moz-border-radius:    5px;
   border-radius:         5px;
 
   padding: 2px 5px;
+}
+
+body > pre.sourceCode, table.sourceCode {
+  background: #404040 url(/img/code-bg.png);
+  text-shadow: 0 0 0 transparent, 1px 1px 4px #292927;
+
+  -moz-border-radius:    5px 0 0 5px;
+  -webkit-border-radius: 5px 0 0 5px;
+  border-radius:         5px 0 0 5px;
+
+  display: none;
+  overflow: auto;
+
+  width: auto;
+  margin: 1.8em -1.5em;
+  padding: 1.5em;
+}
+
+td.nums pre {
+  padding-right: 0.5em;
+  margin-right: 0.5em;
+  text-align: right;
 }
 
 div#header {
@@ -61,34 +115,6 @@ div#footer {
   margin-top: 30px;
 }
 
-h1, h2, h3, h4 {
-  font-weight: bold;
-}
-
-h1, h2 {
-  font-family: 'Hoefler Text', 'Constantia', 'Palatino', 'Palatino Linotype', 'Book Antiqua', 'Georgia', serif;
-}
-
-h1 {
-  color: #333;
-  border-bottom: 1px dotted #ccc;
-  font-size: 27px;
-  line-height: 40px;
-  margin-top: 25px;
-}
-h1 a {
-  color: #333;
-}
-h1 a:hover {
-  color: #114b86;
-  text-decoration: none;
-}
-
-h2 {
-  font-size: 21px;
-  margin-top: 40px;
-}
-
 p, ul {
   margin-top: 1.3em;
   margin-bottom: 1.3em;
@@ -120,28 +146,6 @@ div.figure {
 
 div.figure p.caption {
   font-style: italic;
-}
-
-body > pre.sourceCode, table.sourceCode {
-  text-shadow: 0 0 0 transparent, 1px 1px 2px #292927;
-  background: #404040 url(/img/code-bg.png);
-
-  -moz-border-radius:    5px 0 0 5px;
-  -webkit-border-radius: 5px 0 0 5px;
-  border-radius:         5px 0 0 5px;
-
-  display: none;
-  overflow: auto;
-
-  width: auto;
-  margin: 1.8em -1.5em;
-  padding: 1.5em;
-}
-
-td.nums pre {
-  padding-right: 0.5em;
-  margin-right: 0.5em;
-  text-align: right;
 }
 
 #disqus_thread {
