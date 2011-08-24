@@ -20,5 +20,6 @@ random musings on various technical subjects.
 
 ## My profiles on other sites
 
-- [CV (on Stack Overflow Careers)](http://careers.stackoverflow.com/jacobstanley)
+- [GitHub](http://github.com/jystic)
 - [Stack Overflow](http://stackoverflow.com/users/72821/jacob-stanley)
+- [CV (on Stack Overflow Careers)](http://careers.stackoverflow.com/jacobstanley)
